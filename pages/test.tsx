@@ -3,7 +3,7 @@ import { memo, useEffect, useState } from 'react';
 import { Masonry, useInfiniteLoader } from 'masonic';
 import styled from '@emotion/styled';
 import AppLayout from '@layouts/AppLayout';
-import Dummy500Child from '@components/Dummy500Child';
+import GenerateDivDummy from '@components/GenerateDivDummy';
 import InfiniteLoadFunction from '@utils/InfiniteLoadFunction';
 import { InfiniteData, useInfiniteQuery, useQueryClient } from 'react-query';
 import { ItemInterface } from '@interfaces/InfiniteInterface';
@@ -121,7 +121,7 @@ const Test = () => {
     mount &&
     itemss && (
       <AppLayout>
-        <Dummy500Child />
+        <GenerateDivDummy count={100} />
         <Container>
           <Masonic>
             <Masonry

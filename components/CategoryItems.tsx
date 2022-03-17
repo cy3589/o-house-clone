@@ -51,7 +51,7 @@ const CategoryItems: VFC<CategoryItemsProps> = ({ items }) => {
           })}
           <div
             style={{
-              borderRight: '1px solid #ededed',
+              // borderRight: '1px solid #ededed',
               borderBottom: '1px solid #ededed',
               display: 'flex',
               flexDirection: 'column',

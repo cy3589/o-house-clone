@@ -1,21 +1,22 @@
 /* eslint-disable react/no-unstable-nested-components */
 import { memo, useEffect, useState, VFC } from 'react';
-import { Masonry, useInfiniteLoader } from 'masonic';
+import { Masonry, RenderComponentProps, useInfiniteLoader } from 'masonic';
 import styled from '@emotion/styled';
 import InfiniteLoadFunction from '@utils/InfiniteLoadFunction';
 import { InfiniteData, useInfiniteQuery, useQueryClient } from 'react-query';
 import { ItemInterface } from '@interfaces/InfiniteInterface';
 
 const Masonic = styled.div`
-  padding: 8px;
-  width: 100%;
-  max-width: 960px;
-  margin: 0 auto 0 auto;
+  /* padding: 8px; */
+  /* width: 100%; */
+  max-width: 500px;
+  /* margin: 0 auto 0 auto; */
 `;
 
 const Container = styled.main`
-  min-height: 100vh;
-  width: 100%;
+  /* min-height: 100vh; */
+  /* width: 100%; */
+  /* position: relative; */
 `;
 
 const Card = styled.div`
@@ -25,23 +26,8 @@ const Card = styled.div`
   justify-content: center;
   align-items: center;
   transition: transform 100ms ease-in-out;
-  width: 100%;
+  /* width: 100%; */
   background-color: whitesmoke;
-
-  span:last-of-type {
-    /* color: #fff; */
-  }
-
-  &:hover {
-    position: relative;
-    background: #f2fafe;
-    transform: scale(1.125);
-    z-index: 1000;
-
-    span:last-of-type {
-      color: #1d2326;
-    }
-  }
 `;
 
 const Img = styled.img`
@@ -51,26 +37,46 @@ const Img = styled.img`
   overflow: hidden;
   display: block;
 `;
-const FakeCard = memo(
-  ({ data: { name, src } }: { data: { name: string; src: string } }) => (
-    <Card>
-      <Img alt={name} src={src} />
-      <span
-        style={{
-          width: '100%',
-          overflow: 'hidden',
-          whiteSpace: 'nowrap',
-          textOverflow: 'ellipsis',
-          //   WebkitLineClamp: 2,
-          //   height: '48px',
-        }}
-      >
-        {name}
-      </span>
-    </Card>
-  ),
-);
-FakeCard.displayName = 'FakeCard';
+const RenderCard: VFC<RenderComponentProps<{ name: string; src: string }>> =
+  memo(({ data: { name, src } }) => {
+    return (
+      <div style={{ display: 'flex' }}>
+        <Card>
+          <Img alt={name} src={src} />
+          <span
+            style={
+              {
+                // width: '100%',
+                // overflow: 'hidden',
+                // whiteSpace: 'nowrap',
+                // textOverflow: 'ellipsis',
+                //   WebkitLineClamp: 2,
+                //   height: '48px',
+              }
+            }
+          >
+            {name}
+          </span>
+        </Card>
+        <Card>
+          <Img alt={name} src={src} />
+          <span
+            style={{
+              width: '100%',
+              // overflow: 'hidden',
+              // whiteSpace: 'nowrap',
+              // textOverflow: 'ellipsis',
+              //   WebkitLineClamp: 2,
+              //   height: '48px',
+            }}
+          >
+            {name}
+          </span>
+        </Card>
+      </div>
+    );
+  });
+RenderCard.displayName = 'RenderCard';
 
 interface InfiniteLoadProps {
   route: string;
@@ -112,7 +118,6 @@ const InfiniteLoad: VFC<InfiniteLoadProps> = ({
   const maybeLoadMore = useInfiniteLoader(
     async () => {
       if (!isFetching) {
-        console.log('hello');
         await fetchNextPage();
       }
     },
@@ -130,18 +135,21 @@ const InfiniteLoad: VFC<InfiniteLoadProps> = ({
     .map(({ id, name, image_url: imageUrl }) => ({ id, name, src: imageUrl }));
   if (!mount || !items) return null;
   return (
-    <Container>
-      <Masonic>
-        <Masonry
-          onRender={isFetching ? undefined : maybeLoadMore}
-          items={items}
-          columnGutter={8}
-          columnWidth={240}
-          overscanBy={1.25}
-          render={FakeCard}
-        />
-      </Masonic>
-    </Container>
+    <section style={{ margin: '50px 15px 0 15px' }}>
+      <Container>
+        <Masonic>
+          <Masonry
+            onRender={isFetching ? undefined : maybeLoadMore}
+            items={items}
+            itemStyle={{ padding: '4px' }}
+            // columnGutter={8}
+            // columnWidth={240}
+            // overscanBy={1.25}
+            render={RenderCard}
+          />
+        </Masonic>
+      </Container>
+    </section>
   );
 };
 
