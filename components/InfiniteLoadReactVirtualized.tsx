@@ -1,5 +1,6 @@
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable react/no-unstable-nested-components */
-import { CSSProperties, memo, useEffect, useRef, useState, VFC } from 'react';
+import { memo, useEffect, useRef, useState, VFC } from 'react';
 import styled from '@emotion/styled';
 import InfiniteLoadFunction from '@utils/InfiniteLoadFunction';
 import { InfiniteData, useInfiniteQuery, useQueryClient } from 'react-query';
@@ -14,69 +15,69 @@ import {
 } from 'react-virtualized';
 import 'react-virtualized/styles.css';
 
-const Card = styled.div`
-  display: flex;
-  flex-direction: column;
-  background: #1d2326;
-  justify-content: center;
-  align-items: center;
-  transition: transform 100ms ease-in-out;
-  width: 50%;
-  background-color: whitesmoke;
-`;
+// const Card = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   background: #1d2326;
+//   justify-content: center;
+//   align-items: center;
+//   transition: transform 100ms ease-in-out;
+//   /* width: 50%; */
+//   background-color: whitesmoke;
+// `;
 
-const Img = styled.img`
-  width: 100%;
-  display: block;
-  border-radius: 10px;
-  overflow: hidden;
-  display: block;
-`;
+// const Img = styled.img`
+//   padding-bottom: 100%;
+//   position: relative;
+//   /* height: 0; */
+//   /* width: 100%; */
+//   display: block;
+//   border-radius: 10px;
+//   overflow: hidden;
+//   display: block;
+// `;
 const RenderCard: VFC<{
   data: Array<{ name: string; src: string }>;
-}> = memo(({ data: [item1, item2] }) => {
+  style: any;
+}> = memo(({ data, style }) => {
+  // <Card>
+  //   <Img alt={data[0].name} src={data[0].src} />
+  //   <div>{data[0].name}</div>
+  // </Card>
   return (
-    <div>
-      <Card>
-        <Img alt={item1.name} src={item1.name} />
-        <span
-          style={{
-            width: '50%',
-            overflow: 'hidden',
-            whiteSpace: 'nowrap',
-            textOverflow: 'ellipsis',
-            WebkitLineClamp: 2,
-            height: '48px',
-          }}
-        >
-          {item1.name}
-        </span>
-      </Card>
-      <Card>
-        <Img alt={item2.name} src={item2.src} />
-        <span
-          style={{
-            width: '50%',
-            overflow: 'hidden',
-            whiteSpace: 'nowrap',
-            textOverflow: 'ellipsis',
-            WebkitLineClamp: 2,
-            height: '48px',
-          }}
-        >
-          {item2.name}
-        </span>
-      </Card>
+    <div style={style}>
+      <div
+        key={data[0].name}
+        style={{
+          display: 'flex',
+          padding: '16px 0',
+          position: 'relative',
+        }}
+      >
+        <div style={{ position: 'relative' }}>
+          <img
+            src={data[0].src}
+            alt={data[0].name}
+            style={{
+              width: '100%',
+              // maxWidth: '220px',
+              objectFit: 'contain',
+              overflow: 'hidden',
+              borderRadius: '10px',
+            }}
+          />
+        </div>
+      </div>
     </div>
-    // <div>
-    //   {Array(30)
-    //     .fill(null)
-    //     .map((v, i) => (
-    //       <div key={i}>{i} 123123</div>
-    //     ))}
-    // </div>
   );
 });
+// <div>
+//   {Array(30)
+//     .fill(null)
+//     .map((v, i) => (
+//       <div key={i}>{i} 123123</div>
+//     ))}
+// </div>
 RenderCard.displayName = 'RenderCard';
 
 interface InfiniteLoadProps {
@@ -93,7 +94,9 @@ const InfiniteLoadReactVirtualized: VFC<InfiniteLoadProps> = ({
   const scrollRef = useRef<any>(null);
   // [route, secondRoute],
   const queryClient = useQueryClient();
-  const cache = useRef<CellMeasurerCache>(new CellMeasurerCache());
+  const cache = useRef<CellMeasurerCache>(
+    new CellMeasurerCache({ fixedWidth: true }),
+  );
   const [mount, setMount] = useState<boolean>(false);
   const {
     data: infinitaData,
@@ -149,6 +152,7 @@ const InfiniteLoadReactVirtualized: VFC<InfiniteLoadProps> = ({
               <AutoSizer>
                 {({ width }) => (
                   <List
+                    containerStyle={{ position: 'relative' }}
                     autoHeight
                     onRowsRendered={onRowsRendered}
                     ref={registerChild}
@@ -166,9 +170,15 @@ const InfiniteLoadReactVirtualized: VFC<InfiniteLoadProps> = ({
                           cache={cache.current}
                           parent={parent}
                           rowIndex={index}
-                          style={style}
                         >
-                          <RenderCard data={result[index]} />
+                          {/* <RenderCard data={result[index]} style={style} /> */}
+                          <div style={style}>
+                            {Array(30)
+                              .fill(null)
+                              .map((v, i) => (
+                                <div key={i}>{`${index} ${i}`}</div>
+                              ))}
+                          </div>
                         </CellMeasurer>
                       )
                     }

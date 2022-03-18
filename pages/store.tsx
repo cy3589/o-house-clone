@@ -13,11 +13,12 @@ import {
 // import { useWindowWidth } from '@react-hook/window-size';
 import StoreCarousel from '@components/StoreCarousel';
 import CategoryItems from '@components/CategoryItems';
-import CategoryItemsLargeMode from '@components/CategoryItemsLargeMode';
+// import CategoryItemsLargeMode from '@components/CategoryItemsLargeMode';
 import TodayDeal from '@components/TodayDeal';
 import ThemeCategories from '@components/ThemeCategories';
 import axios from 'axios';
-import InfiniteLoadReactVirtualized from '@components/InfiniteLoadReactVirtualized';
+// import InfiniteLoadReactVirtualized from '@components/InfiniteLoadReactVirtualized';
+import InfiniteLoad from '@components/InfiniteLoad';
 
 // https://ohou.se/store.json?v=5&wedding=true
 // const Carousels = {
@@ -151,15 +152,16 @@ const Store: VFC = () => {
   return (
     <AppLayout>
       <StoreCarousel images={carouselImages} />
-      {/* {mode !== 'large' ? ( */}
-      {true ? (
+      <CategoryItems items={categoryItems} />
+      {/* {mode !== 'large' ? (
         <CategoryItems items={categoryItems} />
       ) : (
         <CategoryItemsLargeMode items={categoryItems} />
-      )}
+      )} */}
       <TodayDeal />
       <ThemeCategories themeCategories={themeCategories} />
-      <InfiniteLoadReactVirtualized route="store" secondRoute="category" />
+      <InfiniteLoad route="store" secondRoute="category" />
+      {/* <InfiniteLoadReactVirtualized route="store" secondRoute="category" /> */}
     </AppLayout>
   );
 };

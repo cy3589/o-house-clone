@@ -40,7 +40,6 @@ const Wrapper = styled.div`
   }
 `;
 const ThemeCategories: VFC<ThemeCategoriesProps> = ({ themeCategories }) => {
-  console.log(themeCategories);
   return (
     <section style={{ margin: '50px 15px 0 15px' }}>
       <h1 style={{ margin: '0 0 14px' }}>인기 키워드</h1>
@@ -50,8 +49,8 @@ const ThemeCategories: VFC<ThemeCategoriesProps> = ({ themeCategories }) => {
             image_url: imageUrl,
             name,
             path_name: pathName,
-            path_type: pathType,
-            search_keyword: searchKeyword,
+            // path_type: pathType,
+            // search_keyword: searchKeyword,
           }) => (
             <div
               key={pathName}

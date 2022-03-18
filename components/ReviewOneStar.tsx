@@ -1,8 +1,12 @@
-import { VFC } from 'react';
+import { CSSProperties, VFC } from 'react';
 
-const ReviewOneStar: VFC = () => {
+interface ReviewOneStarProps {
+  style?: CSSProperties;
+}
+const ReviewOneStar: VFC<ReviewOneStarProps> = ({ style }) => {
   return (
     <svg
+      style={style}
       width="24"
       height="24"
       viewBox="0 0 24 24"
