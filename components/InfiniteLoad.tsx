@@ -13,6 +13,7 @@ import { ItemInterface } from '@interfaces/InfiniteInterface';
 import FreeDelivery from '@components/FreeDelivery';
 import SpecialPrice from '@components/SpecialPrice';
 import ReviewOneStar from '@components/ReviewOneStar';
+import Link from 'next/link';
 
 const Masonic = styled.div`
   /* padding: 8px; */
@@ -28,6 +29,7 @@ const Container = styled.main`
 `;
 
 const Card = styled.div`
+  cursor: pointer;
   display: flex;
   flex-direction: column;
   background: #1d2326;
@@ -114,77 +116,85 @@ const RenderCard: VFC<RenderComponentProps<Array<ItemInterface>>> = memo(
             review_count: reviewCount,
             is_free_delivery: isFreeDelivery,
             is_special_price: isSpecialPrice,
+            id,
           }) => (
-            <Card key={name}>
-              <ImageWrapperDiv>
-                <Img alt={name} src={decodeURIComponent(resizedImageUrl)} />
-              </ImageWrapperDiv>
-              <RenderTwoCardStyle.ContentWrapperDiv>
-                <RenderTwoCardStyle.NamesWrapperDiv>
-                  <RenderTwoCardStyle.BrandNameWrapperDiv>
-                    {brandName}
-                  </RenderTwoCardStyle.BrandNameWrapperDiv>
-                  <RenderTwoCardStyle.ProductNameSpan>
-                    {name}
-                  </RenderTwoCardStyle.ProductNameSpan>
-                </RenderTwoCardStyle.NamesWrapperDiv>
-                <div
-                  style={{
-                    fontWeight: 700,
-                  }}
-                >
-                  {originalPrice !== sellingPrice ? (
-                    <span style={{ color: '#35c5f0', marginRight: '2px' }}>
-                      {`${Math.floor(
-                        (100 * (originalPrice - sellingPrice)) / originalPrice,
-                      )}%`}
+            <Link
+              key={name}
+              href={{ pathname: `/productions/${id}/selling` }}
+              passHref
+            >
+              <Card>
+                <ImageWrapperDiv>
+                  <Img alt={name} src={decodeURIComponent(resizedImageUrl)} />
+                </ImageWrapperDiv>
+                <RenderTwoCardStyle.ContentWrapperDiv>
+                  <RenderTwoCardStyle.NamesWrapperDiv>
+                    <RenderTwoCardStyle.BrandNameWrapperDiv>
+                      {brandName}
+                    </RenderTwoCardStyle.BrandNameWrapperDiv>
+                    <RenderTwoCardStyle.ProductNameSpan>
+                      {name}
+                    </RenderTwoCardStyle.ProductNameSpan>
+                  </RenderTwoCardStyle.NamesWrapperDiv>
+                  <div
+                    style={{
+                      fontWeight: 700,
+                    }}
+                  >
+                    {originalPrice !== sellingPrice ? (
+                      <span style={{ color: '#35c5f0', marginRight: '2px' }}>
+                        {`${Math.floor(
+                          (100 * (originalPrice - sellingPrice)) /
+                            originalPrice,
+                        )}%`}
+                      </span>
+                    ) : null}
+                    <span>
+                      {sellingPrice.toLocaleString()}
+                      {type === 'Deal' ? ' 외' : ''}
                     </span>
+                  </div>
+                  {reviewAvg ? (
+                    <p style={{ margin: '3px 0 0', fontSize: '12px' }}>
+                      <ReviewOneStar
+                        style={{
+                          width: '1.1em',
+                          height: '1.1em',
+                          marginRight: '1px',
+                          color: '#35c5f0',
+                          verticalAlign: '-2px',
+                        }}
+                      />
+                      <strong
+                        style={{
+                          marginRight: '2px',
+                          color: '#424242',
+                          fontWeight: '700',
+                        }}
+                      >
+                        {reviewAvg.toFixed(1)}
+                      </strong>
+                      <span
+                        style={{
+                          color: '#9e9e9e',
+                          lineHeight: '16px',
+                          fontWeight: '700',
+                        }}
+                      >{`리뷰 ${reviewCount.toLocaleString()}`}</span>
+                    </p>
                   ) : null}
-                  <span>
-                    {sellingPrice.toLocaleString()}
-                    {type === 'Deal' ? ' 외' : ''}
-                  </span>
-                </div>
-                {reviewAvg ? (
-                  <p style={{ margin: '3px 0 0', fontSize: '12px' }}>
-                    <ReviewOneStar
-                      style={{
-                        width: '1.1em',
-                        height: '1.1em',
-                        marginRight: '1px',
-                        color: '#35c5f0',
-                        verticalAlign: '-2px',
-                      }}
-                    />
-                    <strong
-                      style={{
-                        marginRight: '2px',
-                        color: '#424242',
-                        fontWeight: '700',
-                      }}
-                    >
-                      {reviewAvg.toFixed(1)}
-                    </strong>
-                    <span
-                      style={{
-                        color: '#9e9e9e',
-                        lineHeight: '16px',
-                        fontWeight: '700',
-                      }}
-                    >{`리뷰 ${reviewCount.toLocaleString()}`}</span>
-                  </p>
-                ) : null}
 
-                <div style={{ marginTop: '8px' }}>
-                  {isFreeDelivery ? (
-                    <FreeDelivery style={{ marginRight: '4px' }} />
-                  ) : null}
-                  {isSpecialPrice ? (
-                    <SpecialPrice style={{ marginRight: '4px' }} />
-                  ) : null}
-                </div>
-              </RenderTwoCardStyle.ContentWrapperDiv>
-            </Card>
+                  <div style={{ marginTop: '8px' }}>
+                    {isFreeDelivery ? (
+                      <FreeDelivery style={{ marginRight: '4px' }} />
+                    ) : null}
+                    {isSpecialPrice ? (
+                      <SpecialPrice style={{ marginRight: '4px' }} />
+                    ) : null}
+                  </div>
+                </RenderTwoCardStyle.ContentWrapperDiv>
+              </Card>
+            </Link>
           ),
         )}
       </RenderTwoCardStyle.WrapperDiv>
@@ -228,6 +238,7 @@ const InfiniteLoad: VFC<InfiniteLoadProps> = ({
         return undefined;
       },
       initialData: { pageParams: [], pages: [] },
+      cacheTime: 1000 * 60 * 5,
     },
   );
   const maybeLoadMore = useInfiniteLoader(

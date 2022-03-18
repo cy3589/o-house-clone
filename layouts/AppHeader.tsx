@@ -5,14 +5,18 @@ import {
 } from '@ant-design/icons';
 import MainLogo from '@components/MainLogo';
 import styled from '@emotion/styled';
-// import Scrollbars from 'react-custom-scrollbars';
+import Scrollbars from 'react-custom-scrollbars';
 import { useCallback, useState } from 'react';
 // import 'antd/dist/antd.css';
 import HeaderBottomMeunus from '@components/HeaderBottomMeunus';
-import GenerateDivDummy from '@components/GenerateDivDummy';
-import { useWindowWidth } from '@react-hook/window-size';
+// import GenerateDivDummy from '@components/GenerateDivDummy';
+// import { useWindowWidth } from '@react-hook/window-size';
 import { SwipeableDrawer } from '@mui/material';
-// import Link from 'next/link';
+import Link from 'next/link';
+import OhouseDrawerTitle from '@components/OhouseDrawerTitle';
+import OhouseDrawerAppIcon from '@components/OhouseDrawerAppIcon';
+import DrawerArrowIcon from '@components/DrawerArrowIcon';
+import DrawerCommunityIcon from '@components/DrawerCommunityIcon';
 
 const CursorPointerDiv = styled.div`
   cursor: pointer;
@@ -63,25 +67,50 @@ const menusDummy = [
   { title: '프리미엄', urlKey: '/productions/premium', isNew: true },
   { title: '기획전', urlKey: '/exhibitions?showroom=false' },
 ];
-const DrawerWrapper = styled.div<{ show?: boolean }>`
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 3;
-  opacity: 0;
-  ${({ show }) =>
-    show ? 'opacity: 1;z-index: 3;' : 'opacity: 0;z-index: -1;'};
-`;
-const Drawer = styled.div<{ windowWidth?: number }>`
-  width: 80vw;
-  height: 100%;
-  background-color: red;
-  max-width: 300px;
-`;
+// const DrawerWrapper = styled.div<{ show?: boolean }>`
+//   position: fixed;
+//   width: 100%;
+//   height: 100%;
+//   background-color: rgba(0, 0, 0, 0.5);
+//   z-index: 3;
+//   opacity: 0;
+//   ${({ show }) =>
+//     show ? 'opacity: 1;z-index: 3;' : 'opacity: 0;z-index: -1;'};
+// `;
+// const Drawer = styled.div<{ windowWidth?: number }>`
+//   width: 80vw;
+//   height: 100%;
+//   background-color: red;
+//   max-width: 300px;
+// `;
 // ${({ windowWidth }) => windowWidth && windowWidth > 767 && 'width:500px'};
+const ScrollbarsStyled = styled(Scrollbars)`
+  position: fixed !important;
+  width: 70vw !important;
+  min-width: 256px !important;
+  max-width: 360px !important;
+`;
+const DrawerButtonStyled = styled.button`
+  position: relative;
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 15px 10px 15px 40px;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 22px;
+  color: #424242;
+  background: none;
+  border: none;
+  text-align: left;
+`;
+const DrawerLiStyled = styled.li`
+  list-style: none;
+`;
 const AppHeader = () => {
-  const windowWidth = useWindowWidth({ wait: 50 });
+  // const windowWidth = useWindowWidth({ wait: 50 });
   const [drawerVisible, setDrawerVisible] = useState<boolean>(false);
   const onClose = useCallback(() => {
     document.body.style.removeProperty('overflow');
@@ -89,8 +118,8 @@ const AppHeader = () => {
     setDrawerVisible(false);
   }, []);
   const onClickMenu = useCallback(() => {
-    document.body.style.overflow = 'hidden';
-    document.body.style.position = 'static';
+    // document.body.style.overflow = 'hidden';
+    // document.body.style.position = 'static';
     setDrawerVisible(true);
   }, []);
   return (
@@ -105,15 +134,136 @@ const AppHeader = () => {
           </div>
         </Drawer>
       </DrawerWrapper> */}
-      {/* <SwipeableDrawer
+      <SwipeableDrawer
         anchor="left"
         open={drawerVisible}
         onClose={onClose}
         onOpen={onClickMenu}
-        style={{ width: '100%', height: '100%', position: 'fixed' }}
+        disableSwipeToOpen
       >
-        <GenerateDivDummy count={30} />
-      </SwipeableDrawer> */}
+        <div
+          style={{
+            width: '70vw',
+            minWidth: '256px',
+            maxWidth: '360px',
+            overflow: 'hidden',
+          }}
+        >
+          <ScrollbarsStyled autoHide universal>
+            <div
+              style={{
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                wordBreak: 'break-word',
+                padding: '30px 20px',
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  flex: '0 0 auto',
+                  width: '100%',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}
+              >
+                <Link href="/" passHref>
+                  <span style={{ cursor: 'pointer' }}>
+                    <OhouseDrawerTitle />
+                  </span>
+                </Link>
+                <div
+                  style={{
+                    fontSize: '12px',
+                    lineHeight: '20px',
+                    whiteSpace: 'nowrap',
+                    fontWeight: '700',
+                    color: '#757575',
+                    display: 'flex',
+                  }}
+                >
+                  <OhouseDrawerAppIcon />
+                  <span>앱다운로드</span>
+                </div>
+              </div>
+              <div
+                style={{
+                  margin: '30px 0',
+                  padding: '0 5px',
+                  display: 'flex',
+                  flex: '0 0 auto',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  textAlign: 'center',
+                }}
+              >
+                <div
+                  style={{
+                    flex: '1 0 0px',
+                    margin: '0 5px',
+                    fontWeight: 700,
+                    border: '1px solid #35c5f0',
+                    borderRadius: '4px',
+                    padding: '9px 10px',
+                    color: '#35c5f0',
+                  }}
+                >
+                  로그인
+                </div>
+                <div
+                  style={{
+                    flex: '1 0 0px',
+                    margin: '0 5px',
+                    fontWeight: 700,
+                    border: '1px solid #35c5f0',
+                    padding: '9px 10px',
+                    borderRadius: '4px',
+                    color: 'white',
+                    backgroundColor: '#35c5f0',
+                  }}
+                >
+                  회원가입
+                </div>
+              </div>
+              <ul>
+                <DrawerLiStyled>
+                  <div>
+                    <DrawerButtonStyled>
+                      <DrawerCommunityIcon /> 커뮤니티
+                      <DrawerArrowIcon active={false} />
+                    </DrawerButtonStyled>
+                  </div>
+                </DrawerLiStyled>
+                <DrawerLiStyled>
+                  <div>
+                    <DrawerButtonStyled>
+                      <DrawerCommunityIcon /> 스토어
+                      <DrawerArrowIcon active={false} />
+                    </DrawerButtonStyled>
+                  </div>
+                </DrawerLiStyled>
+                <DrawerLiStyled>
+                  <div>
+                    <DrawerButtonStyled>
+                      <DrawerCommunityIcon /> 인테리어시공
+                      <DrawerArrowIcon active={false} />
+                    </DrawerButtonStyled>
+                  </div>
+                </DrawerLiStyled>
+              </ul>
+              <div>
+                12341234123412341234123412341234123412341234123412341234123412341234123412341234123412341234123412341234
+              </div>
+              {Array(300)
+                .fill(null)
+                .map((v, i) => (
+                  // eslint-disable-next-line react/no-array-index-key
+                  <div key={i}>{i}</div>
+                ))}
+            </div>
+          </ScrollbarsStyled>
+        </div>
+      </SwipeableDrawer>
       <HeaderWrapper>
         <HeadWrapper>
           <HeaderLeftWrapper>

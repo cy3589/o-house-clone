@@ -10,7 +10,7 @@ const FooterWrapper = styled.div`
   padding: 16px;
 `;
 const AppFooter = () => {
-  return <FooterWrapper>푸터</FooterWrapper>;
+  return <FooterWrapper>This is Footer</FooterWrapper>;
 };
 
 export default AppFooter;

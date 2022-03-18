@@ -38,18 +38,20 @@ const StoreCarousel: VFC<StoreCarouselProps> = ({ images: carouselImages }) => {
         onMouseLeave,
       );
     }
+  }, [onMouseLeave, onMouseOver, swiperRef]);
+  useEffect(() => {
     return () => {
-      swiperRef.current.swiper.$el[0].removeEventListener(
+      swiperRef.current.swiper?.$el[0].removeEventListener(
         'mouseover',
         onMouseOver,
       );
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      swiperRef.current.swiper.$el[0].removeEventListener(
+      swiperRef.current.swiper?.$el[0].removeEventListener(
         'mouseleave',
         onMouseLeave,
       );
     };
-  }, [onMouseLeave, onMouseOver, swiperRef]);
+  }, []);
   return (
     <Swiper
       style={{ marginBottom: '-6px' }}

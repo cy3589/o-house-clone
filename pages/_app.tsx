@@ -3,6 +3,8 @@ import type { AppProps } from 'next/app';
 import { useRef } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import store from '@store/index';
+import { Provider } from 'react-redux';
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const queryClientRef = useRef<QueryClient>();
@@ -15,7 +17,9 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   }
   return (
     <QueryClientProvider client={queryClientRef.current}>
-      <Component {...pageProps} />
+      <Provider store={store}>
+        <Component {...pageProps} />
+      </Provider>
       <ReactQueryDevtools />
     </QueryClientProvider>
   );
