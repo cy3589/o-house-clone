@@ -8,6 +8,18 @@ export interface Bage {
     height: any;
   };
 }
+export interface CategoryInterface {
+  count: number;
+  has_featured_html: boolean;
+  hash: string;
+  id: number;
+  image_url: string;
+  item_desc: string;
+  original_image_url: string;
+  resized_image_url: string;
+  title: string;
+}
+export type CategoriesInterface = CategoryInterface[];
 export interface ItemInterface {
   id: number;
   is_scrap: boolean;

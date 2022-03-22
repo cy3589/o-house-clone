@@ -1,6 +1,6 @@
-/* eslint-disable @next/next/no-img-element */
 import { CSSProperties, useCallback, useState, VFC } from 'react';
 import MoreIcon from '@components/MoreIcon';
+import Image from 'next/image';
 
 interface CategoryItemsProps {
   items: { src: string; title: string }[];
@@ -30,11 +30,19 @@ const CategoryItems: VFC<CategoryItemsProps> = ({ items }) => {
             if ((index + 1) % 4 === 0) style.borderRight = 0;
             return (
               <div key={title} style={style}>
-                <div>
-                  <img
+                <div
+                // style={{
+                //   width: '52px',
+                //   height: '52px',
+                //   objectFit: 'contain',
+                // }}
+                >
+                  <Image
                     src={src}
                     alt={title}
-                    style={{ width: '52px', height: '52px' }}
+                    width="52"
+                    height="52"
+                    objectFit="contain"
                   />
                 </div>
                 <span
@@ -91,10 +99,12 @@ const CategoryItems: VFC<CategoryItemsProps> = ({ items }) => {
           return (
             <div key={title} style={style}>
               <div>
-                <img
+                <Image
                   src={src}
                   alt={title}
-                  style={{ width: '52px', height: '52px' }}
+                  // style={{ width: '52px', height: '52px' }}
+                  width="52"
+                  height="52"
                 />
               </div>
               <span

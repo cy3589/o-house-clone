@@ -24,6 +24,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@store/reducer';
 import { useAppDispatch } from '@store/index';
 import scrollSlice from '@slices/scroll';
+import { CategoryInterface } from '@interfaces/InfiniteInterface';
 
 const Store: VFC = () => {
   const scrollY = useScrollPosition(10); // 10fps로 측정
@@ -33,7 +34,7 @@ const Store: VFC = () => {
     setTimeout(() => {
       window.scrollTo({ top: scrollHeight });
       // window.scrollTo({ top: 10000 });
-    }, 1000);
+    }, 800);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
@@ -61,10 +62,13 @@ const Store: VFC = () => {
   const carouselImages = todayDeal.banners.map(
     (banner: any) => banner.mobile_image.url,
   );
-  const categoryItems = todayDeal.categories.map((category: any) => ({
-    title: category.title,
-    src: category.image_url,
-  }));
+  const categoryItems = todayDeal.categories.map(
+    (category: CategoryInterface) => ({
+      title: category.title,
+      // src: category.image_url,
+      src: category.resized_image_url,
+    }),
+  );
   const themeCategories = todayDeal.theme_categories;
   return (
     <AppLayout>
@@ -75,7 +79,7 @@ const Store: VFC = () => {
       ) : (
         <CategoryItemsLargeMode items={categoryItems} />
       )} */}
-      <TodayDeal />
+      <TodayDeal todayDeals={todayDeal.today_deal.today_deals} />
       <ThemeCategories themeCategories={themeCategories} />
       <InfiniteLoad route="store" secondRoute="category" />
       {/* <InfiniteLoadReactVirtualized route="store" secondRoute="category" /> */}

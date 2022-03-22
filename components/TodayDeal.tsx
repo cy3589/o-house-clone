@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
-import { useEffect, useState, VFC } from 'react';
-import axios from 'axios';
+import { VFC } from 'react';
 import styled from '@emotion/styled';
 import FreeDelivery from '@components/FreeDelivery';
+import { ItemInterface } from '@interfaces/InfiniteInterface';
 
 const ProductionName = styled.span`
   margin-top: 4px;
@@ -19,24 +19,19 @@ const ProductionName = styled.span`
   -webkit-box-orient: vertical;
   word-wrap: break-word;
 `;
-const TodayDeal: VFC = () => {
-  const [todayDeal, setTodayDeal] = useState<any | null>(null);
-  useEffect(() => {
-    (async () => {
-      const { data } = await axios.get('/api/StoreJson');
-      setTodayDeal(data);
-    })();
-  }, []);
-  if (!todayDeal) return null;
-  if (!todayDeal?.today_deal?.today_deals) return null;
-  // console.log(todayDeal.today_deal.today_deals);
-  // todayDeal.today_deal.today_deals.forEach((v: any) => {
-  // Object.entries(v.production).forEach(([key, value]) => {
-  //   if (key.slice(0, 3) === 'is_') {
-  //     console.log(key, value);
-  //   }
-  // });
-  // });
+interface TodayDealProps {
+  todayDeals?: {
+    end_at: string;
+    production: ItemInterface;
+    start_at: string;
+    sub_images: {
+      original_image_url: string;
+      resized_image_url: string;
+    }[];
+    title: string;
+  }[];
+}
+const TodayDeal: VFC<TodayDealProps> = ({ todayDeals = [] }) => {
   return (
     <section style={{ margin: '50px 15px 0 15px' }}>
       <header
@@ -61,16 +56,14 @@ const TodayDeal: VFC = () => {
           더보기
         </h1>
       </header>
-      {(todayDeal.today_deal.today_deals as any[]).map((v, i) => (
+      {todayDeals.map((v, i) => (
         <div
           key={v.production.id}
           style={{
             display: 'flex',
             padding: '16px 0',
             borderBottom:
-              i !== (todayDeal.today_deal.today_deals as any[]).length - 1
-                ? '1px solid #eaedef'
-                : '',
+              i !== todayDeals.length - 1 ? '1px solid #eaedef' : '',
             position: 'relative',
           }}
         >
