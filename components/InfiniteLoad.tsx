@@ -1,10 +1,15 @@
 /* eslint-disable react/no-unstable-nested-components */
-import { memo, useEffect, useState, VFC } from 'react';
+import { memo, useEffect, useRef, useState, VFC } from 'react';
 import {
-  List,
+  // List,
   // Masonry,
+  MasonryScroller,
   RenderComponentProps,
+  useContainerPosition,
   useInfiniteLoader,
+  // useMasonry,
+  usePositioner,
+  // useScroller,
 } from 'masonic';
 import styled from '@emotion/styled';
 import InfiniteLoadFunction from '@utils/InfiniteLoadFunction';
@@ -14,6 +19,7 @@ import FreeDelivery from '@components/FreeDelivery';
 import SpecialPrice from '@components/SpecialPrice';
 import ReviewOneStar from '@components/ReviewOneStar';
 import Link from 'next/link';
+import { useWindowSize } from '@react-hook/window-size';
 
 const Masonic = styled.div`
   /* padding: 8px; */
@@ -212,6 +218,16 @@ const InfiniteLoad: VFC<InfiniteLoadProps> = ({
   secondRoute = 'category',
 }) => {
   // [route, secondRoute],
+  const [, windowHeight] = useWindowSize();
+  const containerRef = useRef(null);
+  const { offset, width } = useContainerPosition(containerRef, [
+    document.body.offsetHeight,
+  ]);
+  const positioner = usePositioner({
+    width,
+    columnGutter: 8,
+    columnWidth: 500,
+  });
   const queryClient = useQueryClient();
   const [mount, setMount] = useState<boolean>(false);
   const {
@@ -264,13 +280,31 @@ const InfiniteLoad: VFC<InfiniteLoadProps> = ({
     <section style={{ margin: '50px 15px 0 15px' }}>
       <Container>
         <Masonic>
-          <List
+          <MasonryScroller
+            positioner={positioner}
+            containerRef={containerRef}
+            offset={offset}
+            height={windowHeight}
             onRender={isFetching ? undefined : maybeLoadMore}
             items={result}
             itemStyle={{ padding: '4px' }}
             render={RenderCard}
-            overscanBy={4}
+            overscanBy={1.25}
           />
+          {/* <List
+            onRender={isFetching ? undefined : maybeLoadMore}
+            items={result}
+            itemStyle={{ padding: '4px' }}
+            render={RenderCard}
+            overscanBy={1.25}
+          /> */}
+          {/* <MyMasonry
+            onRender={isFetching ? undefined : maybeLoadMore}
+            items={result}
+            itemStyle={{ padding: '4px' }}
+            render={RenderCard}
+            overscanBy={1.25}
+          /> */}
         </Masonic>
       </Container>
     </section>

@@ -20,7 +20,7 @@ import DrawerCommunityIcon from '@components/DrawerCommunityIcon';
 
 const CursorPointerDiv = styled.div`
   cursor: pointer;
-  z-index: 1000;
+  z-index: 4;
 `;
 const HeaderWrapper = styled.div`
   position: fixed;
@@ -109,6 +109,9 @@ const DrawerButtonStyled = styled.button`
 const DrawerLiStyled = styled.li`
   list-style: none;
 `;
+const SwipeableDrawerStyled = styled(SwipeableDrawer)`
+  z-index: 4;
+`;
 const AppHeader = () => {
   // const windowWidth = useWindowWidth({ wait: 50 });
   const [drawerVisible, setDrawerVisible] = useState<boolean>(false);
@@ -124,22 +127,13 @@ const AppHeader = () => {
   }, []);
   return (
     <div>
-      {/* <Scrollbars height="100vh" universal autoHide>
-        <GenerateDivDummy count={500} />
-      </Scrollbars> */}
-      {/* <DrawerWrapper show={drawerVisible} onClick={onClose}>
-        <Drawer windowWidth={windowWidth}>
-          <div>
-            <GenerateDivDummy count={100} />
-          </div>
-        </Drawer>
-      </DrawerWrapper> */}
-      <SwipeableDrawer
+      <SwipeableDrawerStyled
         anchor="left"
         open={drawerVisible}
         onClose={onClose}
         onOpen={onClickMenu}
         disableSwipeToOpen
+        translate="yes"
       >
         <div
           style={{
@@ -168,23 +162,25 @@ const AppHeader = () => {
                 }}
               >
                 <Link href="/" passHref>
-                  <span style={{ cursor: 'pointer' }}>
+                  <CursorPointerDiv>
                     <OhouseDrawerTitle />
-                  </span>
+                  </CursorPointerDiv>
                 </Link>
-                <div
-                  style={{
-                    fontSize: '12px',
-                    lineHeight: '20px',
-                    whiteSpace: 'nowrap',
-                    fontWeight: '700',
-                    color: '#757575',
-                    display: 'flex',
-                  }}
-                >
-                  <OhouseDrawerAppIcon />
-                  <span>앱다운로드</span>
-                </div>
+                <Link href="/" passHref>
+                  <CursorPointerDiv
+                    style={{
+                      fontSize: '12px',
+                      lineHeight: '20px',
+                      whiteSpace: 'nowrap',
+                      fontWeight: '700',
+                      color: '#757575',
+                      display: 'flex',
+                    }}
+                  >
+                    <OhouseDrawerAppIcon />
+                    <span>앱다운로드</span>
+                  </CursorPointerDiv>
+                </Link>
               </div>
               <div
                 style={{
@@ -205,7 +201,10 @@ const AppHeader = () => {
                     border: '1px solid #35c5f0',
                     borderRadius: '4px',
                     padding: '9px 10px',
+                    cursor: 'pointer',
+
                     color: '#35c5f0',
+                    backgroundColor: '#fff',
                   }}
                 >
                   로그인
@@ -216,9 +215,11 @@ const AppHeader = () => {
                     margin: '0 5px',
                     fontWeight: 700,
                     border: '1px solid #35c5f0',
-                    padding: '9px 10px',
                     borderRadius: '4px',
-                    color: 'white',
+                    padding: '9px 10px',
+                    cursor: 'pointer',
+
+                    color: '#fff',
                     backgroundColor: '#35c5f0',
                   }}
                 >
@@ -263,7 +264,7 @@ const AppHeader = () => {
             </div>
           </ScrollbarsStyled>
         </div>
-      </SwipeableDrawer>
+      </SwipeableDrawerStyled>
       <HeaderWrapper>
         <HeadWrapper>
           <HeaderLeftWrapper>
