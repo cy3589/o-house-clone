@@ -9,8 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@-ui/react": "^1.2.3",
-    "@-ui/system": "^1.2.0",
     "@ant-design/icons": "^4.7.0",
     "@emotion/styled": "^11.8.1",
     "@mui/material": "^5.5.1",
@@ -23,13 +21,12 @@
     "masonic": "^3.6.4",
     "next": "12.1.0",
     "react": "17.0.2",
-    "react-dom": "17.0.2",
     "react-custom-scrollbars": "^4.2.1",
+    "react-dom": "17.0.2",
     "react-modal": "^3.14.4",
     "react-query": "^3.34.16",
     "react-redux": "^7.2.6",
     "swiper": "^8.0.7"
-    
   },
   "devDependencies": {
     "@types/node": "17.0.21",
