@@ -51,6 +51,7 @@ const StoreCarousel: VFC<StoreCarouselProps> = ({ images: carouselImages }) => {
         onMouseLeave,
       );
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <Swiper
