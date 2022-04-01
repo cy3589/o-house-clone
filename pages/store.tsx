@@ -20,29 +20,32 @@ import axios from 'axios';
 // import InfiniteLoadReactVirtualized from '@components/InfiniteLoadReactVirtualized';
 import InfiniteLoad from '@components/InfiniteLoad';
 import { CategoryInterface } from '@interfaces/InfiniteInterface';
-// import { useSelector } from 'react-redux';
-// import { RootState } from '@store/reducer';
-// import { useAppDispatch } from '@store/index';
-// import scrollSlice from '@slices/scroll';
+import { useSelector } from 'react-redux';
+import { RootState } from '@store/reducer';
+import { useAppDispatch } from '@store/index';
+import scrollSlice from '@slices/scroll';
 // import { useRouter } from 'next/router';
-// import useScrollPosition from '@react-hook/window-scroll';
+import useScrollPosition from '@react-hook/window-scroll';
 
 const Store: VFC = () => {
   // const router = useRouter();
-  // const scrollY = useScrollPosition(10); // 10fps로 측정
-  // const dispatch = useAppDispatch();
-  // const { scrollHeight } = useSelector((state: RootState) => state.scroll);
-  // useEffect(() => {
-  //   if (router.isReady) {
-  //     setTimeout(() => {
-  //       window.scrollTo({ top: scrollHeight });
-  //       // window.scrollTo({ top: 10000 });
-  //     }, 0);
-  //   }
-  // }, [router.isReady, scrollHeight]);
-  // useEffect(() => {
-  //   dispatch(scrollSlice.actions.setScroll(scrollY));
-  // }, [dispatch, scrollY]);
+  const dispatch = useAppDispatch();
+  const { scrollHeight } = useSelector((state: RootState) => state.scroll);
+  // const [isServer] = useState(typeof window === 'undefined');
+  const scrollY = useScrollPosition(5) || scrollHeight; // 10fps로 측정
+  useEffect(() => {
+    setTimeout(() => {
+      window.scrollTo({ top: scrollHeight });
+      // window.scrollTo({ top: 10000 });
+    }, 1000);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  useEffect(() => {
+    setTimeout(() => {
+      dispatch(scrollSlice.actions.setScroll(scrollY));
+    }, 0);
+  }, [dispatch, scrollY]);
+  // console.log(scrollY, scrollHeight);
   // const [mode, setMode] = useState<'small' | 'medium' | 'large'>('small');
   // const windowWidth = useWindowWidth({ leading: true, wait: 50 });
   // useEffect(() => {
@@ -50,9 +53,6 @@ const Store: VFC = () => {
   //   else if (windowWidth < 1024) setMode('medium');
   //   else setMode('large');
   // }, [windowWidth]);
-  // const router = useRouter();
-  // console.log(router);
-  // const carouselImages = Carousels[mode];
   const [todayDeal, setTodayDeal] = useState<any | null>(null);
   useEffect(() => {
     (async () => {

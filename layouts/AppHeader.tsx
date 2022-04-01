@@ -252,15 +252,6 @@ const AppHeader = () => {
                   </div>
                 </DrawerLiStyled>
               </ul>
-              <div>
-                12341234123412341234123412341234123412341234123412341234123412341234123412341234123412341234123412341234
-              </div>
-              {Array(300)
-                .fill(null)
-                .map((v, i) => (
-                  // eslint-disable-next-line react/no-array-index-key
-                  <div key={i}>{i}</div>
-                ))}
             </div>
           </ScrollbarsStyled>
         </div>

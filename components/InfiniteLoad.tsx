@@ -1,25 +1,31 @@
 /* eslint-disable react/no-unstable-nested-components */
-import { memo, useEffect, useRef, useState, VFC } from 'react';
 import {
-  // List,
+  memo,
+  useEffect,
+  //  useRef,
+  useState,
+  VFC,
+} from 'react';
+import {
+  List,
   // Masonry,
-  MasonryScroller,
+  // MasonryScroller,
   RenderComponentProps,
-  useContainerPosition,
+  // useContainerPosition,
   useInfiniteLoader,
   // useMasonry,
-  usePositioner,
+  // usePositioner,
   // useScroller,
 } from 'masonic';
 import styled from '@emotion/styled';
 import InfiniteLoadFunction from '@utils/InfiniteLoadFunction';
-import { InfiniteData, useInfiniteQuery, useQueryClient } from 'react-query';
+import { useInfiniteQuery } from 'react-query';
 import { ItemInterface } from '@interfaces/InfiniteInterface';
 import FreeDelivery from '@components/FreeDelivery';
 import SpecialPrice from '@components/SpecialPrice';
 import ReviewOneStar from '@components/ReviewOneStar';
 import Link from 'next/link';
-import { useWindowSize } from '@react-hook/window-size';
+// import { useWindowSize } from '@react-hook/window-size';
 
 const Masonic = styled.div`
   /* padding: 8px; */
@@ -218,17 +224,16 @@ const InfiniteLoad: VFC<InfiniteLoadProps> = ({
   secondRoute = 'category',
 }) => {
   // [route, secondRoute],
-  const [, windowHeight] = useWindowSize();
-  const containerRef = useRef(null);
-  const { offset, width } = useContainerPosition(containerRef, [
-    document.body.offsetHeight,
-  ]);
-  const positioner = usePositioner({
-    width,
-    columnGutter: 8,
-    columnWidth: 500,
-  });
-  const queryClient = useQueryClient();
+  // const [, windowHeight] = useWindowSize();
+  // const containerRef = useRef(null);
+  // const { offset, width } = useContainerPosition(containerRef, [
+  //   document.body.offsetHeight,
+  // ]);
+  // const positioner = usePositioner({
+  //   width,
+  //   columnGutter: 8,
+  //   columnWidth: 500,
+  // });
   const [mount, setMount] = useState<boolean>(false);
   const {
     data: infinitaData,
@@ -241,20 +246,14 @@ const InfiniteLoad: VFC<InfiniteLoadProps> = ({
       return result;
     },
     {
-      getNextPageParam: () => {
-        const currentInfiniteData = queryClient.getQueryData<
-          InfiniteData<ItemInterface>
-        >([route, secondRoute]);
-        if (
-          currentInfiniteData?.pages &&
-          currentInfiniteData.pages.length > 0
-        ) {
-          return currentInfiniteData.pages.length + 1;
-        }
+      getNextPageParam: (...[, allPages]) => {
+        if (allPages && allPages.length > 0) return allPages.length + 1;
         return undefined;
       },
-      initialData: { pageParams: [], pages: [] },
       cacheTime: 1000 * 60 * 5,
+      refetchOnMount: false,
+      // keepPreviousData: true,
+      // staleTime: 1000 * 60 * 5,
     },
   );
   const maybeLoadMore = useInfiniteLoader(
@@ -280,7 +279,7 @@ const InfiniteLoad: VFC<InfiniteLoadProps> = ({
     <section style={{ margin: '50px 15px 0 15px' }}>
       <Container>
         <Masonic>
-          <MasonryScroller
+          {/* <MasonryScroller
             positioner={positioner}
             containerRef={containerRef}
             offset={offset}
@@ -290,14 +289,14 @@ const InfiniteLoad: VFC<InfiniteLoadProps> = ({
             itemStyle={{ padding: '4px' }}
             render={RenderCard}
             overscanBy={1.25}
-          />
-          {/* <List
+          /> */}
+          <List
             onRender={isFetching ? undefined : maybeLoadMore}
             items={result}
             itemStyle={{ padding: '4px' }}
             render={RenderCard}
             overscanBy={1.25}
-          /> */}
+          />
           {/* <MyMasonry
             onRender={isFetching ? undefined : maybeLoadMore}
             items={result}

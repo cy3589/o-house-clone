@@ -4,6 +4,7 @@ const nextConfig = {
   images: {
     domains: ['image.ohou.se', 'bucketplace-v2-development.s3.amazonaws.com'],
   },
+  experimental: { scrollRestoration: true },
 };
 
 module.exports = nextConfig;
