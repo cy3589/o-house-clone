@@ -6,7 +6,7 @@ import {
 import MainLogo from '@components/MainLogo';
 import styled from '@emotion/styled';
 import Scrollbars from 'react-custom-scrollbars';
-import { useCallback, useState } from 'react';
+import { useCallback, useState, VFC } from 'react';
 // import 'antd/dist/antd.css';
 import HeaderBottomMeunus from '@components/HeaderBottomMeunus';
 // import GenerateDivDummy from '@components/GenerateDivDummy';
@@ -22,12 +22,14 @@ const CursorPointerDiv = styled.div`
   cursor: pointer;
   z-index: 4;
 `;
-const HeaderWrapper = styled.div`
+const HeaderWrapper = styled.div<{ isHide: boolean }>`
   position: fixed;
   width: 100%;
   z-index: 4;
   background-color: #fff;
   top: 0;
+  transition: 0.4s;
+  ${({ isHide }) => isHide && `margin-top:-108px`};
 `;
 const HeadWrapper = styled.div`
   display: flex;
@@ -112,7 +114,10 @@ const DrawerLiStyled = styled.li`
 const SwipeableDrawerStyled = styled(SwipeableDrawer)`
   z-index: 4;
 `;
-const AppHeader = () => {
+interface AppHeaderProps {
+  isHide?: boolean;
+}
+const AppHeader: VFC<AppHeaderProps> = ({ isHide }) => {
   // const windowWidth = useWindowWidth({ wait: 50 });
   const [drawerVisible, setDrawerVisible] = useState<boolean>(false);
   const onClose = useCallback(() => {
@@ -256,7 +261,7 @@ const AppHeader = () => {
           </ScrollbarsStyled>
         </div>
       </SwipeableDrawerStyled>
-      <HeaderWrapper>
+      <HeaderWrapper isHide={isHide}>
         <HeadWrapper>
           <HeaderLeftWrapper>
             <CursorPointerDiv>
