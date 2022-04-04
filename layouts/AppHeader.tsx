@@ -115,7 +115,7 @@ const SwipeableDrawerStyled = styled(SwipeableDrawer)`
   z-index: 4;
 `;
 interface AppHeaderProps {
-  isHide?: boolean;
+  isHide: boolean;
 }
 const AppHeader: VFC<AppHeaderProps> = ({ isHide }) => {
   // const windowWidth = useWindowWidth({ wait: 50 });
